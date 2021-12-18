@@ -2,48 +2,35 @@ import sys
 
 def help():
     sa = """Usage :-
-$ ./task add 2 hello world  # Add a new item with priority 2 and text "hello world" to the list
-$ ./task ls                 # Show incomplete priority list items sorted by priority in ascending order
-$ ./task del NUMBER         # Delete the incomplete item with the given priority number
-$ ./task done NUMBER        # Mark the incomplete item with the given PRIORITY_NUMBER as complete
-$ ./task help               # Show usage
-$ ./task report             # Statistics"""
+$ ./task add 2 hello world    # Add a new item with priority 2 and text "hello world" to the list
+$ ./task ls                   # Show incomplete priority list items sorted by priority in ascending order
+$ ./task del INDEX            # Delete the incomplete item with the given index
+$ ./task done INDEX           # Mark the incomplete item with the given index as complete
+$ ./task help                 # Show usage
+$ ./task report               # Statistics"""
     sys.stdout.buffer.write(sa.encode('utf8'))
     
 def add(n,s):
     try:
         with open('../tasks/task.txt', 'r') as f:
-            st=s+" {"+n+"}\n"
+            st=s+" ["+n+"]\n"
             lines=f.readlines()
             if len(lines)==0:
                 with open('../tasks/task.txt', 'w') as g:
                     g.write("".join(st))
-                    #f.write("\n")
                     g.close()
                     s = '"'+s+'"'
                     print(f"Added task: {s} with priority {n}")
             else:       
                 pr=[]
-                #print(lines)
                 for line in lines:
-                    #line=lines[l]
-                    #print(line)
                     i=''.join(lines).rindex(line)
-                    #print(i)
                     line=line.strip('\n')
-                    #print(line,lines.index(line))
-                    beg=line.rfind("{")
-                    #print(beg)
+                    beg=line.rfind("[")
+                    if st==line[:beg]: break
                     p=line[beg+1:-1]
                     pr.append(p)
-                    #print(p)
                     
-                    """
-                    if n<p:
-                        print(n,p)
-                        lines.insert(i,st)
-                        break
-                    """
                 for pri in pr:
                     if(n<pri):
                         lines.insert(pr.index(pri),st)
@@ -53,7 +40,6 @@ def add(n,s):
                 
                 with open('../tasks/task.txt', 'w') as f:
                     f.write("".join(lines))
-                    #f.write("\n")
                     f.close()
                     s = '"'+s+'"'
                     print(f"Added task: {s} with priority {n}")
@@ -165,7 +151,7 @@ if __name__ == '__main__':
               
         if(args[1] == 'add' and len(args[2:]) == 0 and len(args[3:]) == 0):
             sys.stdout.buffer.write(
-                "Error: Missing task or priority string. Nothing added!".encode('utf8'))
+                "Error: Missing tasks string. Nothing added!".encode('utf8'))
   
         elif(args[1] == 'done' and len(args[2:]) == 0):
             sys.stdout.buffer.write(
