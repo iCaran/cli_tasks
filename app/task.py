@@ -28,7 +28,6 @@ def add(n,s):
                         i=''.join(lines).rindex(line)
                         line=line.strip('\n')
                         beg=line.rfind("[")
-                        #if st==line[:beg]: break
                         p=line[beg+1:-1]
                         pr.append(p)
                         
