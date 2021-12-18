@@ -21,28 +21,31 @@ def add(n,s):
                     g.close()
                     s = '"'+s+'"'
                     print(f"Added task: {s} with priority {n}")
-            else:       
-                pr=[]
-                for line in lines:
-                    i=''.join(lines).rindex(line)
-                    line=line.strip('\n')
-                    beg=line.rfind("[")
-                    if st==line[:beg]: break
-                    p=line[beg+1:-1]
-                    pr.append(p)
+            else:
+                if st not in lines:
+                    pr=[]
+                    for line in lines:
+                        i=''.join(lines).rindex(line)
+                        line=line.strip('\n')
+                        beg=line.rfind("[")
+                        #if st==line[:beg]: break
+                        p=line[beg+1:-1]
+                        pr.append(p)
+                        
+                    for pri in pr:
+                        if(n<pri):
+                            lines.insert(pr.index(pri),st)
+                            break
+                        elif pr.index(pri)==len(pr)-1:
+                            lines.append(st)
                     
-                for pri in pr:
-                    if(n<pri):
-                        lines.insert(pr.index(pri),st)
-                        break
-                    elif pr.index(pri)==len(pr)-1:
-                        lines.append(st)
-                
-                with open('../tasks/task.txt', 'w') as f:
-                    f.write("".join(lines))
-                    f.close()
-                    s = '"'+s+'"'
-                    print(f"Added task: {s} with priority {n}")
+                    with open('../tasks/task.txt', 'w') as f:
+                        f.write("".join(lines))
+                        f.close()
+                        s = '"'+s+'"'
+                        print(f"Added task: {s} with priority {n}")
+                else:
+                    print('''Added task: "'''+s+'''"''')
     except:
         print("Could not add item. Try help.")
     
