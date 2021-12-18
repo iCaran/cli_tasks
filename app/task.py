@@ -56,11 +56,12 @@ def ls():
         nec()
         l = 1
         k = l
-  
-        for i in d:
-            sys.stdout.buffer.write(f"{l}. {d[l]}".encode('utf8'))
-            sys.stdout.buffer.write("\n".encode('utf8'))
-            l = l+1
+        if len(d)>0:
+            for i in d:
+                sys.stdout.buffer.write(f"{l}. {d[l]}".encode('utf8'))
+                sys.stdout.buffer.write("\n".encode('utf8'))
+                l = l+1
+        else: sys.stdout.buffer.write("There are no pending tasks!".encode('utf8'))
   
     except Exception as e:
         raise e
@@ -93,7 +94,6 @@ def done(no):
 def report():
     nec()
     try:
-  
         nf = open('../tasks/completed.txt', 'r')
         c = 1
           
@@ -132,11 +132,14 @@ def nec():
     try:
         f = open('../tasks/task.txt', 'r')
         c = 1
+        #if len(f)>0:
         for line in f:
             line = line.strip('\n')
             d.update({c: line})
             c = c+1
             #print(line)
+        #else:
+        #    sys.stdout.buffer.write("There are no pending tasks!".encode('utf8'))
     except:
         sys.stdout.buffer.write("There are no pending tasks!".encode('utf8'))
   
