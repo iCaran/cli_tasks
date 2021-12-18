@@ -136,14 +136,10 @@ def nec():
     try:
         f = open('../tasks/task.txt', 'r')
         c = 1
-        #if len(f)>0:
         for line in f:
             line = line.strip('\n')
             d.update({c: line})
             c = c+1
-            #print(line)
-        #else:
-        #    sys.stdout.buffer.write("There are no pending tasks!".encode('utf8'))
     except:
         sys.stdout.buffer.write("There are no pending tasks!".encode('utf8'))
   
@@ -174,6 +170,4 @@ if __name__ == '__main__':
             globals()[args[1]](*args[2:])
   
     except Exception as e:
-        #if (len(args[1:])!=0):
-        #    help()
         pass
